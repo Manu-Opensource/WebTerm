@@ -1,23 +1,32 @@
-import logo from './logo.svg';
 import './App.css';
+import React from 'react';
+import createReactClass from 'create-react-class';
+import keydown from 'react-keydown';
+
+const Terminal = keydown(createReactClass({
+  getInitialState() {
+    return { text: '' };
+  },
+
+  componentWillReceiveProps( nextProps ) {
+    const { keydown: { event } } = nextProps;
+    if (event) {
+      this.setState( { text: event.which } );
+    }
+  },
+
+  render() {
+    return this.state.text;
+  }
+}))
 
 function App() {
+  let handleKeyPress = (event) => {
+    console.log(event.key + ' was pressed!')
+  };
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Terminal/>
     </div>
   );
 }
